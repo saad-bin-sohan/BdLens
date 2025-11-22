@@ -1,6 +1,4 @@
 .
-├── .claude
-│   └── settings.local.json
 ├── .dockerignore
 ├── DEPLOYMENT.md
 ├── GETTING_STARTED.md
@@ -112,4 +110,4 @@
     └── uploads
         └── .gitkeep
 
-31 directories, 82 files
+30 directories, 81 files
