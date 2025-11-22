@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+*.egg-info/
+dist/
+build/
+
+# Next.js
+.next/
+out/
+node_modules/
+*.log
+.DS_Store
+.vercel
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Database
+*.db
+*.sqlite
+
+# Storage
+/storage/uploads/*
+!/storage/uploads/.gitkeep
+
+# OS
+.DS_Store
+Thumbs.db

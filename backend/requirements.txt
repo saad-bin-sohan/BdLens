@@ -1,0 +1,31 @@
+# FastAPI
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy==2.0.25
+alembic==1.13.1
+psycopg2-binary==2.9.9
+pgvector==0.2.4
+
+# Auth
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-dotenv==1.0.0
+
+# HTTP & Scraping
+httpx==0.26.0
+beautifulsoup4==4.12.3
+lxml==5.1.0
+
+# PDF Processing
+pypdf2==3.0.1
+pdfplumber==0.10.4
+
+# AI
+google-generativeai==0.3.2
+
+# Utilities
+pydantic==2.5.3
+pydantic-settings==2.1.0

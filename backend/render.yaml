@@ -1,0 +1,30 @@
+# Render Blueprint for TownLens Backend
+services:
+  - type: web
+    name: townlens-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: townlens-db
+          property: connectionString
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ALLOWED_ORIGINS
+        value: https://townlens.vercel.app,http://localhost:3000
+      - key: ENVIRONMENT
+        value: production
+
+databases:
+  - name: townlens-db
+    plan: free
+    databaseName: townlens
+    user: townlens
+    postgresMajorVersion: 14
+    # Note: You'll need to manually run CREATE EXTENSION vector; after database creation
