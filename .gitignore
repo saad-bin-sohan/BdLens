@@ -49,3 +49,4 @@ yarn-error.log*
 docker-compose.override.yml
 *.pid
 Thumbs.db
+Structure.txt
