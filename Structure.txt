@@ -1,6 +1,7 @@
 .
+├── .claude
+│   └── settings.local.json
 ├── .dockerignore
-├── .gitignore
 ├── DEPLOYMENT.md
 ├── GETTING_STARTED.md
 ├── README.md
@@ -14,7 +15,8 @@
 │   │   ├── script.py.mako
 │   │   └── versions
 │   │       ├── .gitkeep
-│   │       └── 20250121_0001_initial_schema.py
+│   │       ├── 20250121_0001_initial_schema.py
+│   │       └── 20251122_0001_add_scraper_type.py
 │   ├── alembic.ini
 │   ├── app
 │   │   ├── __init__.py
@@ -30,6 +32,8 @@
 │   │   ├── ingestion
 │   │   │   ├── __init__.py
 │   │   │   ├── base.py
+│   │   │   ├── dncc_scraper.py
+│   │   │   ├── mopa_scraper.py
 │   │   │   └── simple_scraper.py
 │   │   ├── main.py
 │   │   ├── models
@@ -108,4 +112,4 @@
     └── uploads
         └── .gitkeep
 
-30 directories, 79 files
+31 directories, 82 files
