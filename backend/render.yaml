@@ -1,7 +1,7 @@
-# Render Blueprint for TownLens Backend
+# Render Blueprint for BdLens Backend
 services:
   - type: web
-    name: townlens-backend
+    name: BdLens-backend
     env: python
     region: oregon
     plan: free
@@ -10,21 +10,21 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: townlens-db
+          name: BdLens-db
           property: connectionString
       - key: GEMINI_API_KEY
         sync: false
       - key: JWT_SECRET
         generateValue: true
       - key: ALLOWED_ORIGINS
-        value: https://townlens.vercel.app,http://localhost:3000
+        value: https://BdLens.vercel.app,http://localhost:3000
       - key: ENVIRONMENT
         value: production
 
 databases:
-  - name: townlens-db
+  - name: BdLens-db
     plan: free
-    databaseName: townlens
-    user: townlens
+    databaseName: BdLens
+    user: BdLens
     postgresMajorVersion: 14
     # Note: You'll need to manually run CREATE EXTENSION vector; after database creation

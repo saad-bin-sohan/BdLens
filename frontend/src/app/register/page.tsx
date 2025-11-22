@@ -50,7 +50,7 @@ export default function RegisterPage() {
         <CardHeader>
           <CardTitle>Create Account</CardTitle>
           <CardDescription>
-            Sign up to access TownLens
+            Sign up to access BdLens
           </CardDescription>
         </CardHeader>
         <CardContent>

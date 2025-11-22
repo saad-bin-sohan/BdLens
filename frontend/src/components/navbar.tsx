@@ -32,7 +32,7 @@ export function Navbar({ user }: NavbarProps) {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-6">
             <Link href="/" className="text-xl font-bold text-primary">
-              TownLens
+              BdLens
             </Link>
 
             <div className="flex items-center gap-4">

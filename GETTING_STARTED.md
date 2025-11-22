@@ -1,6 +1,6 @@
-# Getting Started with TownLens
+# Getting Started with BdLens
 
-This guide will help you get TownLens running locally in under 15 minutes.
+This guide will help you get BdLens running locally in under 15 minutes.
 
 ## Quick Start Checklist
 
@@ -15,10 +15,10 @@ This guide will help you get TownLens running locally in under 15 minutes.
 
 ```bash
 # Create PostgreSQL database
-createdb townlens
+createdb BdLens
 
 # Enable pgvector extension
-psql townlens -c "CREATE EXTENSION vector;"
+psql BdLens -c "CREATE EXTENSION vector;"
 ```
 
 ### 2. Backend Setup
@@ -39,7 +39,7 @@ cp .env.example .env
 
 Edit `backend/.env`:
 ```env
-DATABASE_URL=postgresql://postgres:password@localhost:5432/townlens
+DATABASE_URL=postgresql://postgres:password@localhost:5432/BdLens
 GEMINI_API_KEY=your_gemini_api_key_here
 JWT_SECRET=your_random_secret_key_here
 ALLOWED_ORIGINS=http://localhost:3000
@@ -94,7 +94,7 @@ Frontend is now running at http://localhost:3000
 
 ```bash
 # In PostgreSQL
-psql townlens
+psql BdLens
 
 # Run this SQL (replace with your email)
 UPDATE users SET is_admin = true WHERE email = 'your-email@example.com';
@@ -125,7 +125,7 @@ Now you can:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                         TownLens                             │
+│                         BdLens                             │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  Frontend (Next.js)                                          │

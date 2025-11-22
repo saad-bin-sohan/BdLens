@@ -1,6 +1,6 @@
-# TownLens Frontend
+# BdLens Frontend
 
-Next.js frontend for TownLens document search and browsing.
+Next.js frontend for BdLens document search and browsing.
 
 ## Features
 
@@ -58,7 +58,7 @@ npm start
 1. Import your GitHub repository in Vercel
 2. Set the root directory to `frontend`
 3. Add environment variable:
-   - `NEXT_PUBLIC_API_BASE_URL`: Your deployed backend URL (e.g., `https://townlens-api.onrender.com`)
+   - `NEXT_PUBLIC_API_BASE_URL`: Your deployed backend URL (e.g., `https://BdLens-api.onrender.com`)
 4. Deploy
 
 ### Via Vercel CLI

@@ -1,4 +1,4 @@
-# TownLens
+# BdLens
 
 An open-source web application for ingesting, searching, and understanding local government documents.
 
@@ -89,7 +89,7 @@ Frontend will be available at http://localhost:3000
 ### Backend (.env)
 
 ```
-DATABASE_URL=postgresql://user:password@localhost/townlens
+DATABASE_URL=postgresql://user:password@localhost/BdLens
 GEMINI_API_KEY=your_gemini_api_key
 JWT_SECRET=your_secret_key
 ALLOWED_ORIGINS=http://localhost:3000,https://your-app.vercel.app

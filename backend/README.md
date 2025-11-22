@@ -1,6 +1,6 @@
-# TownLens Backend
+# BdLens Backend
 
-FastAPI backend for TownLens document ingestion and search system.
+FastAPI backend for BdLens document ingestion and search system.
 
 ## Setup
 
@@ -34,8 +34,8 @@ Edit `.env` with your settings:
 Ensure PostgreSQL is running with pgvector extension:
 
 ```sql
-CREATE DATABASE townlens;
-\c townlens
+CREATE DATABASE BdLens;
+\c BdLens
 CREATE EXTENSION vector;
 ```
 

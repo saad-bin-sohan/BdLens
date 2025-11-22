@@ -4,7 +4,7 @@ from app.config import settings
 from app.db.base import init_pgvector
 
 app = FastAPI(
-    title="TownLens API",
+    title="BdLens API",
     description="API for ingesting, searching, and understanding local government documents",
     version="1.0.0"
 )
@@ -28,7 +28,7 @@ async def startup_event():
 @app.get("/")
 async def root():
     return {
-        "name": "TownLens API",
+        "name": "BdLens API",
         "version": "1.0.0",
         "status": "running"
     }

@@ -1,6 +1,6 @@
-# TownLens Deployment Guide
+# BdLens Deployment Guide
 
-This guide covers deploying TownLens on free-tier services.
+This guide covers deploying BdLens on free-tier services.
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@ This guide covers deploying TownLens on free-tier services.
    - Keep it secure for environment configuration
 
 2. **GitHub Repository**
-   - Push your TownLens code to GitHub
+   - Push your BdLens code to GitHub
    - Both Render and Vercel can deploy directly from GitHub
 
 ## Backend Deployment (Render)
@@ -20,9 +20,9 @@ This guide covers deploying TownLens on free-tier services.
 1. Go to https://dashboard.render.com
 2. Click "New +" → "PostgreSQL"
 3. Configure:
-   - Name: `townlens-db`
-   - Database: `townlens`
-   - User: `townlens`
+   - Name: `BdLens-db`
+   - Database: `BdLens`
+   - User: `BdLens`
    - Region: Choose closest to you
    - Plan: **Free**
 4. Click "Create Database"
@@ -49,7 +49,7 @@ CREATE EXTENSION vector;
 1. Click "New +" → "Web Service"
 2. Connect your GitHub repository
 3. Configure:
-   - **Name**: `townlens-backend`
+   - **Name**: `BdLens-backend`
    - **Region**: Same as database
    - **Branch**: `main`
    - **Root Directory**: `backend`
@@ -67,7 +67,7 @@ CREATE EXTENSION vector;
 
 5. Click "Create Web Service"
 6. Wait for deployment (first deploy may take 5-10 minutes)
-7. Note your backend URL: `https://townlens-backend.onrender.com`
+7. Note your backend URL: `https://BdLens-backend.onrender.com`
 
 ### Important Notes for Render Free Tier
 
@@ -90,7 +90,7 @@ CREATE EXTENSION vector;
    - **Output Directory**: `.next`
 
 5. Add Environment Variable:
-   - `NEXT_PUBLIC_API_BASE_URL`: Your Render backend URL (e.g., `https://townlens-backend.onrender.com`)
+   - `NEXT_PUBLIC_API_BASE_URL`: Your Render backend URL (e.g., `https://BdLens-backend.onrender.com`)
 
 6. Click "Deploy"
 7. Wait for deployment (2-3 minutes)
@@ -133,7 +133,7 @@ If you prefer Docker:
 cd backend
 
 # Build
-docker build -t townlens-backend .
+docker build -t BdLens-backend .
 
 # Run
 docker run -p 8000:8000 \
@@ -141,7 +141,7 @@ docker run -p 8000:8000 \
   -e GEMINI_API_KEY="..." \
   -e JWT_SECRET="..." \
   -e ALLOWED_ORIGINS="https://your-frontend.vercel.app" \
-  townlens-backend
+  BdLens-backend
 ```
 
 ### Frontend (Docker)
@@ -150,11 +150,11 @@ docker run -p 8000:8000 \
 cd frontend
 
 # Build
-docker build -t townlens-frontend \
+docker build -t BdLens-frontend \
   --build-arg NEXT_PUBLIC_API_BASE_URL="https://your-backend.onrender.com" .
 
 # Run
-docker run -p 3000:3000 townlens-frontend
+docker run -p 3000:3000 BdLens-frontend
 ```
 
 ## Troubleshooting
