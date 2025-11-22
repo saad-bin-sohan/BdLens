@@ -22,7 +22,7 @@ from app.schemas.admin import (
 from app.schemas.document import DocumentDetail
 from app.auth.dependencies import get_current_admin_user
 from app.services.document_processor import DocumentProcessor
-from app.ingestion.simple_scraper import SimpleScraper
+from app.ingestion import get_scraper_for_source
 from app.config import settings
 
 router = APIRouter()
@@ -107,8 +107,8 @@ async def trigger_crawl(
         job.status = "running"
         db.commit()
 
-        # Use simple scraper
-        scraper = SimpleScraper(source.base_url, source.url_pattern)
+        # Use dynamic scraper based on source.scraper_type
+        scraper = get_scraper_for_source(source)
         processor = DocumentProcessor(db)
 
         documents_created = 0
@@ -156,6 +156,33 @@ async def trigger_crawl(
                             source_id=source_id
                         )
                         documents_created += 1
+
+                        # Process any PDF attachments found in HTML content
+                        if doc_data.get('pdf_links'):
+                            for pdf_url in doc_data['pdf_links']:
+                                try:
+                                    # Check if PDF already exists
+                                    existing_pdf = db.query(Document).filter(Document.url == pdf_url).first()
+                                    if existing_pdf:
+                                        continue
+
+                                    # Download and process PDF
+                                    upload_dir = settings.upload_dir
+                                    os.makedirs(upload_dir, exist_ok=True)
+                                    filename = f"{uuid.uuid4()}.pdf"
+                                    file_path = os.path.join(upload_dir, filename)
+
+                                    if scraper.fetch_pdf(pdf_url, file_path):
+                                        processor.process_pdf_file(
+                                            file_path=file_path,
+                                            title=f"{doc_data['title']} - Attachment",
+                                            source_id=source_id,
+                                            url=pdf_url
+                                        )
+                                        documents_created += 1
+                                except Exception as pdf_error:
+                                    print(f"Error processing PDF attachment {pdf_url}: {pdf_error}")
+                                    continue
 
             except Exception as e:
                 print(f"Error processing document {doc_link['url']}: {e}")

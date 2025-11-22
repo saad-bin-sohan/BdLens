@@ -11,6 +11,7 @@ class DocumentSource(Base):
     name = Column(String, nullable=False)
     base_url = Column(String, nullable=False)
     url_pattern = Column(String, nullable=True)  # Optional regex/pattern for filtering
+    scraper_type = Column(String, default="simple", nullable=False)  # simple, dncc, mopa
     is_enabled = Column(Boolean, default=True, nullable=False)
     last_crawled_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

@@ -21,6 +21,7 @@ export default function SourcesPage() {
     name: '',
     base_url: '',
     url_pattern: '',
+    scraper_type: 'simple',
     is_enabled: true,
   });
 
@@ -48,7 +49,7 @@ export default function SourcesPage() {
     e.preventDefault();
     try {
       await api.createSource(newSource);
-      setNewSource({ name: '', base_url: '', url_pattern: '', is_enabled: true });
+      setNewSource({ name: '', base_url: '', url_pattern: '', scraper_type: 'simple', is_enabled: true });
       setShowNewForm(false);
       loadData();
     } catch (err: any) {
@@ -151,6 +152,24 @@ export default function SourcesPage() {
                 />
               </div>
 
+              <div className="space-y-2">
+                <Label htmlFor="scraper_type">Scraper Type</Label>
+                <select
+                  id="scraper_type"
+                  value={newSource.scraper_type}
+                  onChange={(e) => setNewSource({ ...newSource, scraper_type: e.target.value })}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  required
+                >
+                  <option value="simple">Simple (Generic Scraper)</option>
+                  <option value="dncc">DNCC (Dhaka North City Corporation)</option>
+                  <option value="mopa">MOPA (Ministry of Public Administration)</option>
+                </select>
+                <p className="text-sm text-gray-500">
+                  Select the scraper type based on the source website
+                </p>
+              </div>
+
               <div className="flex gap-2">
                 <Button type="submit">Create Source</Button>
                 <Button type="button" variant="outline" onClick={() => setShowNewForm(false)}>
@@ -181,6 +200,9 @@ export default function SourcesPage() {
                         {source.name}
                         <Badge variant={source.is_enabled ? 'default' : 'secondary'}>
                           {source.is_enabled ? 'Enabled' : 'Disabled'}
+                        </Badge>
+                        <Badge variant="outline">
+                          {source.scraper_type.toUpperCase()}
                         </Badge>
                       </CardTitle>
                       <CardDescription>{source.base_url}</CardDescription>

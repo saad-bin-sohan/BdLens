@@ -64,6 +64,7 @@ export interface DocumentSource {
   name: string;
   base_url: string;
   url_pattern?: string;
+  scraper_type: string;
   is_enabled: boolean;
   last_crawled_at?: string;
   created_at: string;

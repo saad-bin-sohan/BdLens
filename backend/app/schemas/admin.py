@@ -7,6 +7,7 @@ class DocumentSourceCreate(BaseModel):
     name: str
     base_url: str
     url_pattern: Optional[str] = None
+    scraper_type: Optional[str] = "simple"
     is_enabled: bool = True
 
 
@@ -14,6 +15,7 @@ class DocumentSourceUpdate(BaseModel):
     name: Optional[str] = None
     base_url: Optional[str] = None
     url_pattern: Optional[str] = None
+    scraper_type: Optional[str] = None
     is_enabled: Optional[bool] = None
 
 
@@ -22,6 +24,7 @@ class DocumentSourceResponse(BaseModel):
     name: str
     base_url: str
     url_pattern: Optional[str]
+    scraper_type: str
     is_enabled: bool
     last_crawled_at: Optional[datetime]
     created_at: datetime
