@@ -93,13 +93,12 @@ export default function SourcesPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-8">
+      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Manage Sources</h1>
-          <p className="text-gray-600 mt-2">
-            Configure and manage document crawl sources
-          </p>
+          <p className="text-sm text-primary">Source manager</p>
+          <h1 className="text-3xl font-semibold text-slate-800">Configure and monitor crawls</h1>
+          <p className="text-slate-600">Keep your ingestion pipeline clean and in control.</p>
         </div>
         <Button onClick={() => setShowNewForm(!showNewForm)}>
           <Plus className="h-4 w-4 mr-2" />
@@ -108,14 +107,16 @@ export default function SourcesPage() {
       </div>
 
       {error && (
-        <div className="p-4 text-red-600 bg-red-50 rounded-md">{error}</div>
+        <div className="rounded-2xl border border-red-100 bg-red-50/70 p-4 text-sm text-red-700 shadow-[8px_8px_16px_rgba(163,177,198,0.25),-8px_-8px_16px_rgba(255,255,255,0.9)]">
+          {error}
+        </div>
       )}
 
-      {/* New Source Form */}
       {showNewForm && (
-        <Card>
+        <Card className="border-transparent">
           <CardHeader>
-            <CardTitle>Create New Source</CardTitle>
+            <CardTitle>Create new source</CardTitle>
+            <CardDescription>Point BdLens at a base URL and choose the right scraper.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleCreateSource} className="space-y-4">
@@ -158,14 +159,14 @@ export default function SourcesPage() {
                   id="scraper_type"
                   value={newSource.scraper_type}
                   onChange={(e) => setNewSource({ ...newSource, scraper_type: e.target.value })}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  className="neu-input flex h-12 w-full rounded-xl px-3 text-sm text-slate-700 focus-visible:outline-none"
                   required
                 >
                   <option value="simple">Simple (Generic Scraper)</option>
                   <option value="dncc">DNCC (Dhaka North City Corporation)</option>
                   <option value="mopa">MOPA (Ministry of Public Administration)</option>
                 </select>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-slate-500">
                   Select the scraper type based on the source website
                 </p>
               </div>
@@ -181,10 +182,10 @@ export default function SourcesPage() {
         </Card>
       )}
 
-      {/* Sources List */}
       {loading ? (
-        <div className="text-center py-12">
-          <p className="text-gray-600">Loading sources...</p>
+        <div className="flex flex-col items-center gap-3 rounded-3xl border border-white/70 bg-white/70 px-6 py-12 text-slate-500 shadow-[14px_14px_28px_rgba(163,177,198,0.35),-14px_-14px_28px_rgba(255,255,255,0.95)]">
+          <Clock className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-sm">Loading sources...</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -192,11 +193,11 @@ export default function SourcesPage() {
             const recentJobs = crawlJobs.filter((job) => job.source_id === source.id).slice(0, 3);
 
             return (
-              <Card key={source.id}>
+              <Card key={source.id} className="border-transparent transition-all hover:-translate-y-[1px] hover:shadow-[16px_16px_32px_rgba(163,177,198,0.3),-16px_-16px_32px_rgba(255,255,255,0.95)]">
                 <CardHeader>
-                  <div className="flex items-start justify-between">
+                  <div className="flex items-start justify-between gap-3">
                     <div>
-                      <CardTitle className="flex items-center gap-2">
+                      <CardTitle className="flex flex-wrap items-center gap-2">
                         {source.name}
                         <Badge variant={source.is_enabled ? 'default' : 'secondary'}>
                           {source.is_enabled ? 'Enabled' : 'Disabled'}
@@ -205,7 +206,7 @@ export default function SourcesPage() {
                           {source.scraper_type.toUpperCase()}
                         </Badge>
                       </CardTitle>
-                      <CardDescription>{source.base_url}</CardDescription>
+                      <CardDescription className="text-slate-600">{source.base_url}</CardDescription>
                     </div>
                     <div className="flex gap-2">
                       <Button
@@ -229,7 +230,7 @@ export default function SourcesPage() {
                 <CardContent>
                   <div className="space-y-3">
                     {source.last_crawled_at && (
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-2 text-sm text-slate-600">
                         <Calendar className="h-4 w-4" />
                         Last crawled: {formatDate(source.last_crawled_at)}
                       </div>
@@ -237,18 +238,18 @@ export default function SourcesPage() {
 
                     {recentJobs.length > 0 && (
                       <div>
-                        <p className="text-sm font-medium mb-2">Recent Crawl Jobs:</p>
+                        <p className="mb-2 text-sm font-medium text-slate-700">Recent crawl jobs</p>
                         <div className="space-y-2">
                           {recentJobs.map((job) => (
                             <div
                               key={job.id}
-                              className="flex items-center justify-between p-2 rounded bg-gray-50"
+                              className="flex items-center justify-between rounded-2xl bg-white/70 p-3 shadow-[8px_8px_16px_rgba(163,177,198,0.3),-8px_-8px_16px_rgba(255,255,255,0.95)]"
                             >
                               <div className="flex items-center gap-2">
                                 {getStatusIcon(job.status)}
-                                <span className="text-sm capitalize">{job.status}</span>
+                                <span className="text-sm capitalize text-slate-700">{job.status}</span>
                               </div>
-                              <span className="text-xs text-gray-500">
+                              <span className="text-xs text-slate-500">
                                 {formatDate(job.created_at)}
                               </span>
                             </div>
@@ -263,10 +264,10 @@ export default function SourcesPage() {
           })}
 
           {sources.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-600">No sources configured</p>
-              <Button className="mt-4" onClick={() => setShowNewForm(true)}>
-                Create First Source
+            <div className="flex flex-col items-center gap-3 rounded-3xl border border-white/70 bg-white/70 px-6 py-12 text-center text-slate-600 shadow-[14px_14px_28px_rgba(163,177,198,0.35),-14px_-14px_28px_rgba(255,255,255,0.95)]">
+              <p>No sources configured yet</p>
+              <Button className="mt-2" onClick={() => setShowNewForm(true)}>
+                Create first source
               </Button>
             </div>
           )}

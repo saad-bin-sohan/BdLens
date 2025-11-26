@@ -56,8 +56,9 @@ export default function DocumentDetailPage() {
 
   if (loading) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-600">Loading document...</p>
+      <div className="flex flex-col items-center gap-3 rounded-3xl border border-white/70 bg-white/70 px-6 py-12 text-slate-500 shadow-[14px_14px_28px_rgba(163,177,198,0.35),-14px_-14px_28px_rgba(255,255,255,0.95)]">
+        <RefreshCw className="h-8 w-8 animate-spin text-primary" />
+        <p className="text-sm">Loading document...</p>
       </div>
     );
   }
@@ -65,11 +66,11 @@ export default function DocumentDetailPage() {
   if (error || !document) {
     return (
       <div className="space-y-4">
-        <Button variant="ghost" onClick={() => router.back()}>
+        <Button variant="outline" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
         </Button>
-        <div className="p-4 text-red-600 bg-red-50 rounded-md">
+        <div className="rounded-2xl border border-red-100 bg-red-50/70 p-4 text-sm text-red-700 shadow-[8px_8px_16px_rgba(163,177,198,0.25),-8px_-8px_16px_rgba(255,255,255,0.9)]">
           {error || 'Document not found'}
         </div>
       </div>
@@ -77,20 +78,27 @@ export default function DocumentDetailPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <Button variant="ghost" onClick={() => router.back()}>
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        Back
-      </Button>
+    <div className="space-y-8">
+      <div className="flex flex-wrap items-center gap-3">
+        <Button variant="outline" onClick={() => router.back()}>
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back
+        </Button>
+        <Badge variant="outline" className="border-primary/30 text-primary">
+          {document.content_type.toUpperCase()}
+        </Badge>
+      </div>
 
-      <div>
-        <div className="flex items-start justify-between mb-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {document.title}
-            </h1>
-            <div className="flex items-center gap-4 text-sm text-gray-500">
-              <div className="flex items-center gap-1">
+      <Card className="border-transparent">
+        <CardHeader>
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="text-3xl font-semibold text-slate-800">
+                {document.title}
+              </h1>
+            </div>
+            <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
+              <div className="flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 shadow-[6px_6px_12px_rgba(163,177,198,0.25),-6px_-6px_12px_rgba(255,255,255,0.9)]">
                 <Calendar className="h-4 w-4" />
                 {formatDate(document.crawled_at)}
               </div>
@@ -99,42 +107,39 @@ export default function DocumentDetailPage() {
                   href={document.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-primary hover:underline"
+                  className="flex items-center gap-1 rounded-full bg-white/80 px-3 py-1 text-primary shadow-[6px_6px_12px_rgba(163,177,198,0.25),-6px_-6px_12px_rgba(255,255,255,0.9)]"
                 >
                   <Globe className="h-4 w-4" />
-                  Original
+                  View original
                 </a>
               )}
-              <Badge variant="secondary">
-                {document.content_type.toUpperCase()}
-              </Badge>
+              {document.source && (
+                <span className="rounded-full bg-white/80 px-3 py-1 text-xs text-slate-600 shadow-[6px_6px_12px_rgba(163,177,198,0.25),-6px_-6px_12px_rgba(255,255,255,0.9)]">
+                  Source: {document.source.name}
+                </span>
+              )}
             </div>
+            {document.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {document.tags.map((tag) => (
+                  <Badge key={tag.id} variant="secondary">
+                    {tag.name}
+                  </Badge>
+                ))}
+              </div>
+            )}
           </div>
-        </div>
+        </CardHeader>
+      </Card>
 
-        {/* Tags */}
-        {document.tags.length > 0 && (
-          <div className="flex gap-2 flex-wrap mb-4">
-            {document.tags.map((tag) => (
-              <Badge key={tag.id}>{tag.name}</Badge>
-            ))}
-          </div>
-        )}
-
-        {/* Source */}
-        {document.source && (
-          <p className="text-sm text-gray-600 mb-4">
-            Source: {document.source.name}
-          </p>
-        )}
-      </div>
-
-      {/* Summary */}
       {document.summary && (
-        <Card>
+        <Card className="border-transparent">
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>Summary</CardTitle>
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <CardTitle>Summary</CardTitle>
+                <CardDescription>Concise overview generated by AI</CardDescription>
+              </div>
               <Button
                 variant="outline"
                 size="sm"
@@ -147,21 +152,20 @@ export default function DocumentDetailPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-700 leading-relaxed">{document.summary}</p>
+            <p className="text-slate-700 leading-relaxed">{document.summary}</p>
           </CardContent>
         </Card>
       )}
 
-      {/* Explanation */}
       {document.explanation && (
-        <Card>
+        <Card className="border-transparent">
           <CardHeader>
             <CardTitle>Detailed Explanation</CardTitle>
             <CardDescription>Plain language breakdown</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="prose prose-sm max-w-none">
-              <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+              <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">
                 {document.explanation}
               </p>
             </div>
@@ -169,18 +173,20 @@ export default function DocumentDetailPage() {
         </Card>
       )}
 
-      {/* Entities */}
       {document.entities.length > 0 && (
-        <Card>
+        <Card className="border-transparent">
           <CardHeader>
             <CardTitle>Key Entities</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
               {document.entities.map((entity) => (
-                <div key={entity.id} className="border-l-2 border-primary pl-3">
-                  <p className="font-medium">{entity.name}</p>
-                  <p className="text-xs text-gray-500 capitalize">{entity.type}</p>
+                <div
+                  key={entity.id}
+                  className="rounded-2xl border border-white/60 bg-white/70 p-3 shadow-[8px_8px_16px_rgba(163,177,198,0.28),-8px_-8px_16px_rgba(255,255,255,0.9)]"
+                >
+                  <p className="font-medium text-slate-800">{entity.name}</p>
+                  <p className="text-xs uppercase text-slate-500">{entity.type}</p>
                 </div>
               ))}
             </div>
@@ -188,14 +194,13 @@ export default function DocumentDetailPage() {
         </Card>
       )}
 
-      {/* Full Content */}
-      <Card>
+      <Card className="border-transparent">
         <CardHeader>
           <CardTitle>Full Content</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="prose prose-sm max-w-none">
-            <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+            <p className="text-slate-700 leading-relaxed whitespace-pre-wrap">
               {document.content_text}
             </p>
           </div>

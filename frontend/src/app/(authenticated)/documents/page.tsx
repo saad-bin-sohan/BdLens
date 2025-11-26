@@ -63,18 +63,18 @@ export default function DocumentsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Browse Documents</h1>
-        <p className="text-gray-600 mt-2">
-          Explore all ingested government documents
-        </p>
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <Badge variant="outline" className="w-fit border-primary/40 bg-white/70 text-primary">
+          Document Library
+        </Badge>
+        <h1 className="text-3xl font-semibold text-slate-800">Browse all ingested documents</h1>
+        <p className="text-slate-600">Filter by tags or keywords to explore the full corpus.</p>
       </div>
 
-      {/* Filters */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex gap-4">
+      <Card className="border-transparent">
+        <CardContent className="space-y-3 pt-6">
+          <div className="flex flex-col gap-3 md:flex-row">
             <div className="flex-1">
               <Input
                 placeholder="Search documents..."
@@ -87,9 +87,9 @@ export default function DocumentsPage() {
             <select
               value={selectedTag}
               onChange={(e) => setSelectedTag(e.target.value)}
-              className="px-4 py-2 border rounded-md"
+              className="neu-input h-12 rounded-xl px-4 text-sm text-slate-700 focus-visible:outline-none"
             >
-              <option value="">All Tags</option>
+              <option value="">All tags</option>
               {tags.map((tag) => (
                 <option key={tag.id} value={tag.slug}>
                   {tag.name}
@@ -97,7 +97,7 @@ export default function DocumentsPage() {
               ))}
             </select>
 
-            <Button onClick={handleFilter}>
+            <Button onClick={handleFilter} className="md:min-w-[140px]">
               <Search className="h-4 w-4 mr-2" />
               Filter
             </Button>
@@ -115,36 +115,38 @@ export default function DocumentsPage() {
               </Button>
             )}
           </div>
+          <p className="text-xs text-slate-500">Showing {documents.length} documents.</p>
         </CardContent>
       </Card>
 
-      {/* Documents List */}
       {error && (
-        <div className="p-4 text-red-600 bg-red-50 rounded-md">{error}</div>
+        <div className="rounded-2xl border border-red-100 bg-red-50/70 p-4 text-sm text-red-700 shadow-[8px_8px_16px_rgba(163,177,198,0.25),-8px_-8px_16px_rgba(255,255,255,0.9)]">
+          {error}
+        </div>
       )}
 
       {loading ? (
-        <div className="text-center py-12">
-          <p className="text-gray-600">Loading documents...</p>
+        <div className="flex flex-col items-center gap-3 rounded-3xl border border-white/70 bg-white/70 px-6 py-10 text-slate-500 shadow-[14px_14px_28px_rgba(163,177,198,0.35),-14px_-14px_28px_rgba(255,255,255,0.95)]">
+          <Search className="h-10 w-10 animate-pulse text-primary" />
+          <p className="text-sm">Loading documents...</p>
         </div>
       ) : documents.length === 0 ? (
-        <div className="text-center py-12">
-          <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600">No documents found</p>
+        <div className="flex flex-col items-center gap-3 rounded-3xl border border-white/70 bg-white/70 px-6 py-12 text-center text-slate-600 shadow-[14px_14px_28px_rgba(163,177,198,0.35),-14px_-14px_28px_rgba(255,255,255,0.95)]">
+          <FileText className="h-12 w-12 text-slate-400" />
+          <p className="text-lg font-semibold text-slate-700">No documents found</p>
+          <p className="text-sm text-slate-500">Try adjusting your search or filters.</p>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="grid gap-4">
           {documents.map((doc) => (
             <Link key={doc.id} href={`/documents/${doc.id}`}>
-              <Card className="hover:shadow-md transition-shadow cursor-pointer">
+              <Card className="cursor-pointer border-transparent transition-all hover:-translate-y-[2px] hover:shadow-[16px_16px_32px_rgba(163,177,198,0.3),-16px_-16px_32px_rgba(255,255,255,0.95)]">
                 <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-lg mb-2">
-                        {doc.title}
-                      </CardTitle>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 space-y-2">
+                      <CardTitle className="text-lg">{doc.title}</CardTitle>
                       {doc.summary && (
-                        <p className="text-sm text-gray-600 line-clamp-2">
+                        <p className="text-sm text-slate-600 line-clamp-2">
                           {doc.summary}
                         </p>
                       )}
@@ -154,29 +156,29 @@ export default function DocumentsPage() {
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                <CardContent className="space-y-2">
+                  <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
                       {formatDate(doc.crawled_at)}
                     </div>
                     {doc.source && (
-                      <div className="text-gray-400">
+                      <span className="rounded-full bg-white/80 px-3 py-1 text-xs shadow-[6px_6px_12px_rgba(163,177,198,0.25),-6px_-6px_12px_rgba(255,255,255,0.9)]">
                         {doc.source.name}
-                      </div>
+                      </span>
                     )}
-                    <div className="flex gap-1 flex-wrap">
-                      {doc.tags.slice(0, 3).map((tag) => (
-                        <Badge key={tag.id} variant="outline" className="text-xs">
-                          {tag.name}
-                        </Badge>
-                      ))}
-                      {doc.tags.length > 3 && (
-                        <Badge variant="outline" className="text-xs">
-                          +{doc.tags.length - 3}
-                        </Badge>
-                      )}
-                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {doc.tags.slice(0, 4).map((tag) => (
+                      <Badge key={tag.id} variant="outline" className="text-xs">
+                        {tag.name}
+                      </Badge>
+                    ))}
+                    {doc.tags.length > 4 && (
+                      <Badge variant="outline" className="text-xs">
+                        +{doc.tags.length - 4}
+                      </Badge>
+                    )}
                   </div>
                 </CardContent>
               </Card>

@@ -33,18 +33,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Login to BdLens</CardTitle>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[-10%] top-[-15%] h-80 w-80 rounded-full bg-primary/15 blur-3xl" />
+        <div className="absolute right-[-10%] bottom-[-20%] h-96 w-96 rounded-full bg-accent/15 blur-3xl" />
+      </div>
+      <Card className="relative w-full max-w-md border-transparent">
+        <CardHeader className="space-y-2 text-center">
+          <p className="text-sm font-semibold text-primary">Welcome back</p>
+          <CardTitle>Sign in to BdLens</CardTitle>
           <CardDescription>
-            Access local government documents and insights
+            Access local government documents and insights.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
-              <div className="p-3 text-sm text-red-600 bg-red-50 rounded-md">
+              <div className="rounded-2xl border border-red-100 bg-red-50/70 p-3 text-sm text-red-700 shadow-[8px_8px_16px_rgba(163,177,198,0.25),-8px_-8px_16px_rgba(255,255,255,0.9)]">
                 {error}
               </div>
             )}
@@ -77,7 +82,7 @@ export default function LoginPage() {
               {loading ? 'Logging in...' : 'Login'}
             </Button>
 
-            <div className="text-center text-sm text-gray-600">
+            <div className="text-center text-sm text-slate-600">
               Don't have an account?{' '}
               <Link href="/register" className="text-primary hover:underline">
                 Register

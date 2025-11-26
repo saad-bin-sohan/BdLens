@@ -84,48 +84,47 @@ export default function UploadPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Upload Document</h1>
-        <p className="text-gray-600 mt-2">
-          Manually upload a PDF document for analysis
-        </p>
+    <div className="mx-auto max-w-3xl space-y-8">
+      <div className="space-y-2">
+        <p className="text-sm text-primary">Upload center</p>
+        <h1 className="text-3xl font-semibold text-slate-800">Upload a PDF for instant processing</h1>
+        <p className="text-slate-600">We handle extraction, summarization, tagging, and indexing automatically.</p>
       </div>
 
-      <Card>
+      <Card className="border-transparent">
         <CardHeader>
           <CardTitle>Upload PDF</CardTitle>
           <CardDescription>
-            The document will be processed, analyzed, and tagged automatically
+            The document will be processed, analyzed, and tagged automatically.
           </CardDescription>
         </CardHeader>
         <CardContent>
           {success ? (
             <div className="text-center py-8">
-              <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Upload Successful!</h3>
-              <p className="text-gray-600">
+              <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2 text-slate-800">Upload successful</h3>
+              <p className="text-slate-600">
                 Redirecting to document...
               </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <div className="p-4 text-red-600 bg-red-50 rounded-md">
+                <div className="rounded-2xl border border-red-100 bg-red-50/70 p-4 text-sm text-red-700 shadow-[8px_8px_16px_rgba(163,177,198,0.25),-8px_-8px_16px_rgba(255,255,255,0.9)]">
                   {error}
                 </div>
               )}
 
               <div className="space-y-2">
                 <Label htmlFor="file-upload">PDF File</Label>
-                <div className="border-2 border-dashed rounded-lg p-6">
+                <div className="rounded-2xl border border-dashed border-primary/30 bg-white/70 p-6 text-slate-600 shadow-[12px_12px_24px_rgba(163,177,198,0.3),-12px_-12px_24px_rgba(255,255,255,0.95)]">
                   {selectedFile ? (
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
                         <FileText className="h-8 w-8 text-primary" />
                         <div>
-                          <p className="font-medium">{selectedFile.name}</p>
-                          <p className="text-sm text-gray-500">
+                          <p className="font-medium text-slate-800">{selectedFile.name}</p>
+                          <p className="text-sm text-slate-500">
                             {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                           </p>
                         </div>
@@ -145,8 +144,8 @@ export default function UploadPage() {
                     </div>
                   ) : (
                     <div className="text-center">
-                      <Upload className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-600 mb-2">
+                      <Upload className="h-12 w-12 text-primary/60 mx-auto mb-3" />
+                      <p className="text-sm text-slate-600 mb-3">
                         Click to select or drag and drop a PDF file
                       </p>
                       <Input
@@ -169,7 +168,7 @@ export default function UploadPage() {
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Document title"
                 />
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-slate-500">
                   Leave blank to use filename
                 </p>
               </div>
@@ -180,7 +179,7 @@ export default function UploadPage() {
                   id="source"
                   value={sourceId || ''}
                   onChange={(e) => setSourceId(e.target.value ? Number(e.target.value) : undefined)}
-                  className="w-full px-3 py-2 border rounded-md"
+                  className="neu-input w-full rounded-xl px-3 py-3 text-sm text-slate-700 focus-visible:outline-none"
                 >
                   <option value="">None</option>
                   {sources.map((source) => (
@@ -210,14 +209,14 @@ export default function UploadPage() {
         </CardContent>
       </Card>
 
-      <Card className="bg-blue-50 border-blue-200">
+      <Card className="border-transparent bg-white/70">
         <CardContent className="pt-6">
-          <h3 className="font-semibold mb-2">What happens after upload?</h3>
-          <ul className="text-sm space-y-1 text-gray-700">
-            <li>• Text is extracted from the PDF</li>
-            <li>• AI generates a summary and explanation</li>
-            <li>• Topics and entities are automatically tagged</li>
-            <li>• Document is indexed for semantic search</li>
+          <h3 className="font-semibold text-slate-800 mb-3">What happens after upload?</h3>
+          <ul className="text-sm space-y-2 text-slate-600">
+            <li>- Text is extracted from the PDF</li>
+            <li>- AI generates a summary and explanation</li>
+            <li>- Topics and entities are automatically tagged</li>
+            <li>- Document is indexed for semantic search</li>
           </ul>
         </CardContent>
       </Card>
